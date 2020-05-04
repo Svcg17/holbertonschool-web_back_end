@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Basic annotations task 1"""
+"""Basic annotations task 1 """
 
 
 def concat(str1: str, str2: str) -> str:
@@ -9,4 +9,5 @@ def concat(str1: str, str2: str) -> str:
         str2: string
     Return: concatenated string
     """
-    return str1 + str2
+    str3 = str1 + str2
+    return str3
