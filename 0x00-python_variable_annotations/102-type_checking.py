@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 """Basic annotations task 12"""
 from typing import Union, Any, Mapping, TypeVar, Tuple, List
 T = TypeVar('T')
+
 
 def zoom_array(lst: List, factor: int = 2) -> List:
     """Returns a list of by a factor
