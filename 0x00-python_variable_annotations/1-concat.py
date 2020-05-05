@@ -9,5 +9,4 @@ def concat(str1: str, str2: str) -> str:
         str2: string
     Return: concatenated string
     """
-    str3 = str1 + str2
-    return str3
+    return "{}{}".format(str1, str2)
