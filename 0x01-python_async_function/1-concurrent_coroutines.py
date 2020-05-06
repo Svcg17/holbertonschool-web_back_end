@@ -8,8 +8,8 @@ wait_random = __import__('0-basic_async_syntax').wait_random
 
 async def wait_n(n: int, max_delay: float) -> List[float]:
     """Returns a list of delayed float values using wait_random coroutine"""
-    tasks = []
-    delays = []
+    tasks: List[float] = []
+    delays: List[float] = []
 
     for _ in range(n):
         tasks.append(asyncio.create_task(wait_random(max_delay)))
