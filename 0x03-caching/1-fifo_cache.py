@@ -2,6 +2,7 @@
 """FIFO Cache System Module"""
 from base_caching import BaseCaching
 
+
 class FIFOCache(BaseCaching):
     """A FIFO Cache System Class inherited from BaseCaching class
     Args:
@@ -15,10 +16,9 @@ class FIFOCache(BaseCaching):
         if key and item:
             self.cache_data[key] = item
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            for k in sorted(self.cache_data):
-                self.cache_data.pop(k)
-                break
-            print('DISCARD:', k)
+            to_pop = sorted(self.cache_data)[0]
+            self.cache_data.pop(to_pop)
+            print('DISCARD:', to_pop)
 
     def get(self, key):
         """Get an item from cache by key"""

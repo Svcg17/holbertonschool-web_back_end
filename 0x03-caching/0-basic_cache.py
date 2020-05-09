@@ -3,6 +3,7 @@
 """
 from base_caching import BaseCaching
 
+
 class BasicCache(BaseCaching):
     """A Basic Cache System class inherited from BaseCaching
     Args:
@@ -17,5 +18,4 @@ class BasicCache(BaseCaching):
         """Get an item from cache by key"""
         if key and key in self.cache_data:
             return self.cache_data.get(key)
-        else:
-            return None
+        return None
