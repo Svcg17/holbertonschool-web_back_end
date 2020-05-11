@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """LFU Cache System Module"""
 from base_caching import BaseCaching
-LRUCache = __import__('3-lru_cache').LRUCache
 
 
 class LFUCache(BaseCaching):
@@ -23,6 +22,7 @@ class LFUCache(BaseCaching):
         super().__init__()
 
     def count_used(self, key):
+        """Increases value of key by 1 if it exists"""
         if key in self.used:
             self.used[key] += 1
         else:
@@ -42,7 +42,6 @@ class LFUCache(BaseCaching):
                         self.used.pop(k)
                         break
                 print('DISCARD:', k)
-
             self.ages[key] = self.counter
             self.counter += 1
             self.count_used(key)
