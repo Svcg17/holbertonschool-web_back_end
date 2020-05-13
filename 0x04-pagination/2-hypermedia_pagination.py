@@ -42,15 +42,15 @@ class Server:
         """returns a dictionary containing data set pagination info"""
         dataset_items = len(self.dataset())
         data = self.get_page(page, page_size)
-        total_items = math.ceil(dataset_items / page_size)
+        total_pages = math.ceil(dataset_items / page_size)
 
         ret = {
             "page": page,
-            "page_size": page_size,
+            "page_size": page_size if page < total_pages else 0,
             "data": data,
-            "next_page": page + 1 if page + 1 < dataset_items else None,
+            "next_page": page + 1 if page + 1 < total_pages else None,
             "prev_page": page - 1 if page - 1 > 0 else None,
-            "total_items": total_items
+            "total_pages": total_pages
             }
         return ret
 
