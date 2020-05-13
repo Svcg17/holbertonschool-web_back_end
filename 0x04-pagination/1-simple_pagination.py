@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Simple pagination task 1"""
-from typing import Tuple
+from typing import Tuple, List
 import csv
 import math
-from typing import List
 
 
 class Server:
@@ -25,6 +24,20 @@ class Server:
 
         return self.__dataset
 
+    def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
+        """finds the correct indexes to paginate the dataset correctly
+        and return the appropriate page of the dataset
+        """
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page > 0
+        range_p = index_range(page, page_size)
+        server = Server()
+        s = range_p[0]
+        e = range_p[1]
+        if e > len(server.dataset()):
+            return []
+        return(server.dataset()[s:e])
+
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
     """return a tuple of size two containing a start index
@@ -34,18 +47,3 @@ def index_range(page: int, page_size: int) -> Tuple[int, int]:
     start = abs((page - 1) * page_size)
     end = page * page_size
     return (start, end)
-
-
-def get_page(page: int = 1, page_size: int = 10) -> List[List]:
-    """finds the correct indexes to paginate the dataset correctly
-    and return the appropriate page of the dataset
-    """
-    assert isinstance(page, int) and page > 0
-    assert isinstance(page_size, int) and page > 0
-    range_p = index_range(page, page_size)
-    server = Server()
-    s = range_p[0]
-    e = range_p[1]
-    if e > len(server.dataset()):
-        return []
-    return(server.dataset()[s:e])
