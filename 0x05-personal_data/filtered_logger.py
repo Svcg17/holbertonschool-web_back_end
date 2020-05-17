@@ -15,6 +15,3 @@ def filter_datum(fields: List[str],
         pattern = field + "=.+?(?=abc)*\\" + ";"
         message = re.sub(pattern, field + "=" + redaction + separator, message)
     return message
-
-message = "name=Balou;email=balou@holberton.io;ssn=412-532-2382;password=abcdef;"
-print(filter_datum(fields=("email", "password"), redaction="***", message=message, separator=";"))
