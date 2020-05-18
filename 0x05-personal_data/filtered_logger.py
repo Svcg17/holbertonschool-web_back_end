@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Filter logger task #1"""
+"""Logging Tasks"""
 from typing import List
 import re
 import logging
 import sys
+
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 class RedactingFormatter(logging.Formatter):
@@ -39,3 +41,15 @@ def filter_datum(fields: List[str],
         pattern = field + "=.+?(?=abc)*\\" + ";"
         message = re.sub(pattern, field + "=" + redaction + separator, message)
     return message
+
+
+def get_logger() -> logging.Logger:
+    """Creates a logger and returns it"""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(RedactingFormatter(PII_FIELDS))
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
