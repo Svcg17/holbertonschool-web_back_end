@@ -65,4 +65,18 @@ def get_db():
         host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
         database=os.getenv("PERSONAL_DATA_DB_NAME"))
 
-    return connector 
+    return connector
+
+
+if __name__ == '__main__':
+    connection = get_db()
+    cursor = connection.cursor(dictionary=True)
+    query = ("SELECT * FROM users")
+    cursor.execute(query)
+    for row in cursor:
+        string = ""
+        for key in row:
+            string += "{}={}; ".format(key, row[key])
+        print(string)
+    cursor.close()
+    connection.close()
