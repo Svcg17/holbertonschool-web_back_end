@@ -52,11 +52,12 @@ def before_request():
     needs_auth = ['/api/v1/status/',
                   '/api/v1/unauthorized/',
                   '/api/v1/forbidden/']
-    if auth.require_auth(request.path, needs_auth):
-        if not auth.authorization_header(request):
-            abort(401)
-        if not auth.current_user(request):
-            abort(403)
+    if auth:
+        if auth.require_auth(request.path, needs_auth):
+            if not auth.authorization_header(request):
+                abort(401)
+            if not auth.current_user(request):
+                abort(403)
 
 
 if __name__ == "__main__":
