@@ -12,7 +12,7 @@ class Auth():
         """Returns true if a route requires authorization,
         false otherwise.
         """
-        if not path or not excluded_paths:
+        if not path or not excluded_paths or not len(excluded_paths):
             return True
         if path[-1] != '/':
             path = path + '/'
@@ -32,6 +32,6 @@ class Auth():
         return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """
+        """Current user method
         """
         return None
