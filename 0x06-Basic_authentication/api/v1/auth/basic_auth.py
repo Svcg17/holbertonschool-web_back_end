@@ -40,7 +40,7 @@ class BasicAuth(Auth):
            not isinstance(decoded_b64_auth_h, str) or \
            ':' not in decoded_b64_auth_h:
             return (None, None)
-        credentials = decoded_b64_auth_h.split(":")
+        credentials = decoded_b64_auth_h.split(":", 1)
         return (credentials[0], credentials[1])
 
     def user_object_from_credentials(self, e: str, p: str) -> TypeVar('User'):
