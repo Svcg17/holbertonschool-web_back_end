@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""API authentication
+"""Basic authentication
 """
 from flask import request
 from typing import List, TypeVar
 from api.v1.auth.auth import Auth
 import base64
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -41,3 +42,30 @@ class BasicAuth(Auth):
             return (None, None)
         credentials = decoded_b64_auth_h.split(":")
         return (credentials[0], credentials[1])
+
+    def user_object_from_credentials(self, e: str, p: str) -> TypeVar('User'):
+        """Retrieves a User instance based on email
+        and password
+        """
+        if not e or not p or \
+           not isinstance(e, str) or not isinstance(p, str):
+            return None
+        users = User.search({"email": e})
+        if users:
+            for u in users:
+                if u.is_valid_password(p):
+                    return u
+        return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Retrieves the User instance for a request
+        """
+        try:
+            header = self.authorization_header(request)
+            base64 = self.extract_base64_authorization_header(header)
+            decoded = self.decode_base64_authorization_header(base64)
+            cred = self.extract_user_credentials(decoded)
+            user = self.user_object_from_credentials(cred[0], cred[1])
+            return user
+        except Exception:
+            return None
