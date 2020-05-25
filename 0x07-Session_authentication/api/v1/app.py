@@ -58,18 +58,19 @@ def before_request():
                   '/api/v1/auth_session/login/']
     if auth:
         if not auth.require_auth(request.path, needs_auth):
-            print("HERE")
             return
         if (not auth.authorization_header(request) and
                 not auth.session_cookie(request)):
             abort(401)
         if auth.authorization_header(request) and auth.session_cookie(request):
-            return None, abort(401)
-        user = auth.current_user(request)
+            """ return None, abort(401) """
+            abort(401)
+        request.current_user = auth.current_user(request)
+        """ user = auth.current_user(request)
         if user:
             request.current_user = user
         else:
-            abort(403)
+            abort(403) """
 
 
 if __name__ == "__main__":
