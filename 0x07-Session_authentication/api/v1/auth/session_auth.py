@@ -4,7 +4,9 @@
 from api.v1.auth.auth import Auth
 from flask import request
 from models.user import User
+from typing import TypeVar
 import uuid
+
 
 class SessionAuth(Auth):
     """A Session Authentication class
@@ -28,7 +30,7 @@ class SessionAuth(Auth):
             return None
         return self.user_id_by_session_id.get(session_id)
 
-    def current_user(self, request=None):
+    def current_user(self, request=None) -> Ty:
         """Returns a User instance based on a cookie value
         """
         user = User()
@@ -36,4 +38,3 @@ class SessionAuth(Auth):
         session_id = self.session_cookie(request)
         user_id = self.user_id_for_session_id(session_id)
         return user.get(user_id)
-        
