@@ -37,8 +37,11 @@ def login_session():
         return jsonify({"error": "no user found for this email"}), 404
     for user in users:
         if user.is_valid_password(pwd):
-            session_id = auth.create_session(user.id)
-            user_to_json = jsonify(user.to_json())
-            user_to_json.set_cookie(session_name, session_id)
+            try:
+                session_id = auth.create_session(user.id)
+                user_to_json = jsonify(user.to_json())
+                user_to_json.set_cookie(session_name, session_id)
+            except Exception:
+                break
             return user_to_json
     return jsonify({"error": "wrong password"}), 404
