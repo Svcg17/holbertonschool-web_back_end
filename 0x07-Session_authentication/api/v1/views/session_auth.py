@@ -45,3 +45,17 @@ def login_session():
                 break
             return user_to_json
     return jsonify({"error": "wrong password"}), 404
+
+@app_views.route("/auth_session/logout", methods=["DELETE"], strict_slashes=False)
+def logout_session():
+    """DELETE /api/v1/auth_session/logout
+    Deletes a session
+    Path parameter:
+        - Session ID
+    Return:
+        - empty JSON is the User has been correctly deleted
+        - 404 if the User ID doesn't exist
+    """
+    if not auth.destroy_session(request):
+        abort(404)
+    return jsonify({}), 200
