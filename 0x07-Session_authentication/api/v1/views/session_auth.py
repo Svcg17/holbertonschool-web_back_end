@@ -5,7 +5,6 @@ from flask import jsonify, abort, Flask
 from flask import request, jsonify, abort
 from api.v1.views import app_views
 from models.user import User
-from api.v1.app import auth
 import os
 
 
@@ -19,6 +18,8 @@ def login_session():
     Return:
         - dictionary representation of the User
     """
+    from api.v1.app import auth
+
     email = request.form.get("email")
     pwd = request.form.get("password")
     session_name = os.getenv("SESSION_NAME")
@@ -58,6 +59,8 @@ def logout_session():
         - empty JSON is the User has been correctly deleted
         - 404 if the User ID doesn't exist
     """
+    from api.v1.app import auth
+
     if not auth.destroy_session(request):
         abort(404)
     return jsonify({}), 200
