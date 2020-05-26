@@ -31,7 +31,8 @@ def login_session():
     try:
         users = User.search({"email": email})
     except Exception:
-        return jsonify({"error": "no user found for this email"}), 404
+        users = None
+
     if not users:
         return jsonify({"error": "no user found for this email"}), 404
     for user in users:
