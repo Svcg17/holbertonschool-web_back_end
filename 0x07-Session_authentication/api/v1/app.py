@@ -58,14 +58,20 @@ def before_request():
                   '/api/v1/auth_session/login/'
                   ]
     if auth:
+        # If path requires authentication
         if not auth.require_auth(request.path, needs_auth):
             return
+        # If request is authorized but also giving a cookie for a session
         if auth.authorization_header(request) and auth.session_cookie(request):
             abort(401)
-        if not auth.authorization_header(request):
+        # If request is unauthorized 
+        if (not auth.authorization_header(request) and
+                not auth.session_cookie(request)):
             abort(401)
+        # If user does not exist
         if not auth.current_user(request):
             abort(403)
+    # current user (according to auth)
     request.current_user = auth.current_user(request)
 
 
