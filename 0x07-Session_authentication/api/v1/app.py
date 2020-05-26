@@ -61,10 +61,7 @@ def before_request():
         # If path requires authentication
         if not auth.require_auth(request.path, needs_auth):
             return
-        # If request is authorized but also giving a cookie for a session
-        if auth.authorization_header(request) and auth.session_cookie(request):
-            abort(401)
-        # If request is unauthorized 
+        # If request is unauthorized
         if (not auth.authorization_header(request) and
                 not auth.session_cookie(request)):
             abort(401)
