@@ -17,7 +17,7 @@ class DB:
     """A DB class
     """
     def __init__(self):
-        self._engine = create_engine("sqlite:///a.db", echo=False)
+        self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -40,8 +40,8 @@ class DB:
         return user
 
     def find_user_by(self, **filters: Any):
-        """Returns the first row found in the users table that matches the input's
-        keywords arguments
+        """Returns the first row found in the users table that matches the
+        input's keywords arguments
         """
         try:
             query = self._session.query(User).filter_by(**filters)
