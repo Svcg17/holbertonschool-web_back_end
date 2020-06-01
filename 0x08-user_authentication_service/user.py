@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Users model
+"""
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
@@ -5,6 +8,8 @@ from sqlalchemy import Column, Integer, String
 Base = declarative_base()
 
 class User(Base):
+    """A User Class
+    """
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
