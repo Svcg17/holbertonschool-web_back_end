@@ -17,7 +17,7 @@ class DB:
     """A DB class
     """
     def __init__(self):
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -43,16 +43,24 @@ class DB:
         """Returns the first row found in the users table that matches the
         input's keywords arguments
         """
+        if not User.__dict__.get(*filters):
+            raise InvalidRequestError
         try:
             query = self._session.query(User).filter_by(**filters)
-            if not query.first():
-                raise NoResultFound()
-            return query.first()
-        except InvalidRequestError:
+            return query.one()
+        except NoResultFound:
             raise
 
-    """  def update_user(self, user_id: str, **kwargs: Any):
-        # Uses find_user_by to locate the user and then updates it with the
+    def update_user(self, user_id: str, **kwargs: Any):
+        """Uses find_user_by to locate the user and then updates it with the
         attributes passed as kwargs
-        #
-        user = self.find_user_by(id=user_id) """
+        """
+        try:
+            user = self.find_user_by(id=user_id)
+            for key, val in kwargs.items():
+                setattr(user, key, val)
+            self._session.commit()
+            return None
+        except ValueError:
+            raise
+        
