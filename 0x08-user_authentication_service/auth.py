@@ -40,7 +40,7 @@ class Auth:
     def _generate_uuid(self) -> str:
         """Returns a string representation of a new UUID.
         """
-        return str(uuid.uuid4())
+        return str(uuid.uuid1())
 
     def create_session(self, email: str) -> str:
         """Creates a session ID based on a user
