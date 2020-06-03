@@ -45,11 +45,10 @@ class DB:
         """
         if not User.__dict__.get(*filters):
             raise InvalidRequestError
-        try:
-            query = self._session.query(User).filter_by(**filters)
-            return query.one()
-        except NoResultFound:
-            raise
+        query = self._session.query(User).filter_by(**filters)
+        if not query.first():
+            raise NoResultFound
+        return query.first()
 
     def update_user(self, user_id: str, **kwargs: Any):
         """Uses find_user_by to locate the user and then updates it with the
@@ -61,5 +60,5 @@ class DB:
                 setattr(user, key, val)
             self._session.commit()
             return None
-        except ValueError:
-            raise
+        except Exception:
+            raise ValueError
