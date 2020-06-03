@@ -69,6 +69,30 @@ class Auth:
         except Exception:
             raise
 
+    def get_reset_password_token(self, email: str) -> str:
+        """Reset a users' password
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            s_id = self._generate_uuid()
+            self._db.update_user(user.id, reset_token=s_id)
+            return s_id
+        except Exception:
+            raise ValueError
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """Uses a reset token to find the corresponding user and
+        updates that user's password with a new one
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            password = _hash_password(password)
+            self._db.update_user(user.id, hashed_password=password,
+                                 reset_token=None)
+            return None
+        except Exception:
+            raise ValueError
+
 
 def _hash_password(password: str) -> str:
     """Returns a hashed password
