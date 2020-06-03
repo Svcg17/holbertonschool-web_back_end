@@ -14,11 +14,6 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def _generate_uuid(self) -> str:
-        """Returns a string representation of a new UUID.
-        """
-        return str(uuid.uuid4())
-
     def register_user(self, email: str, password: str) -> TypeVar('User'):
         """Creates and saves a new user given an email and a password
         """
@@ -41,6 +36,11 @@ class Auth:
             return (bcrypt.checkpw(password, user.hashed_password))
         except Exception:
             return False
+
+    def _generate_uuid(self) -> str:
+        """Returns a string representation of a new UUID.
+        """
+        return str(uuid.uuid4())
 
     def create_session(self, email: str) -> str:
         """Creates a session ID based on a user
