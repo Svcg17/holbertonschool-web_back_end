@@ -37,16 +37,11 @@ class Auth:
         except Exception:
             return False
 
-    def _generate_uuid(self) -> str:
-        """Returns a string representation of a new UUID.
-        """
-        return str(uuid.uuid1())
-
     def create_session(self, email: str) -> str:
         """Creates a session ID based on a user
         """
         user = self._db.find_user_by(email=email)
-        s_id = self._generate_uuid()
+        s_id = _generate_uuid()
         self._db.update_user(user.id, session_id=s_id)
         return s_id
 
@@ -74,7 +69,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            s_id = self._generate_uuid()
+            s_id = _generate_uuid()
             self._db.update_user(user.id, reset_token=s_id)
             return s_id
         except Exception:
@@ -102,3 +97,8 @@ def _hash_password(password: str) -> str:
         a hashed string
     """
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
+def _generate_uuid() -> str:
+        """Returns a string representation of a new UUID.
+        """
+        return str(uuid.uuid1())
