@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Saves the user to the database
         """
         user = User(email=email, hashed_password=hashed_password)
@@ -39,7 +39,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **filters: Any):
+    def find_user_by(self, **filters: Any) -> User:
         """Returns the first row found in the users table that matches the
         input's keywords arguments
         """
@@ -50,7 +50,7 @@ class DB:
             raise NoResultFound
         return query.first()
 
-    def update_user(self, user_id: str, **kwargs: Any):
+    def update_user(self, user_id: int, **kwargs: Any):
         """Uses find_user_by to locate the user and then updates it with the
         attributes passed as kwargs
         """
