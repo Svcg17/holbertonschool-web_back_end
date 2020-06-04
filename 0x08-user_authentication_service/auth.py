@@ -5,6 +5,7 @@ import bcrypt
 from db import DB
 from typing import TypeVar
 import uuid
+from user import User
 
 
 class Auth:
@@ -14,7 +15,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> User:
         """Creates and saves a new user given an email and a password
         """
         try:
@@ -98,7 +99,8 @@ def _hash_password(password: str) -> str:
     """
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
+
 def _generate_uuid() -> str:
-        """Returns a string representation of a new UUID.
-        """
-        return str(uuid.uuid1())
+    """Returns a string representation of a new UUID.
+    """
+    return str(uuid.uuid1())
