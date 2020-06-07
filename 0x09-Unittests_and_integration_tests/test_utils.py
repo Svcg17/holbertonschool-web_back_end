@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-import unittest
-from parameterized import parameterized
-from utils import access_nested_map
 """Unit tests for utils module
 """
+import unittest
+from unittest.mock import patch
+from parameterized import parameterized
+from utils import access_nested_map, get_json
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    """ A class for testing access_nested_map method
+    """ A class for testing utils.access_nested_map method
     """
     @parameterized.expand([
         ("len_1", ({"a": 1}, ("a",)), 1),
@@ -24,7 +25,7 @@ class TestAccessNestedMap(unittest.TestCase):
         ("non_existent_path", ({"a": 1}, ("a", "b")), "b")
     ])
     def test_access_nested_map_exception(self, name, input, error):
-        """Testing failure of access_nested_map method
+        """Testing failure of utils.access_nested_map method
         """
         with self.assertRaises(KeyError):
             try:
@@ -32,3 +33,22 @@ class TestAccessNestedMap(unittest.TestCase):
             except KeyError as e:
                 self.assertEqual(e.args[0], error)
                 raise
+
+
+class TestGetJson(unittest.TestCase):
+    """Testing for utils.get_json method
+    """
+    @parameterized.expand([
+        ("true_payload", ("http://example.com", {"payload": True})),
+        ("false_payload", ("http://holberton.io", {"payload": False}))
+    ])
+    def test_get_json(self, name, input):
+        """Tests utils.get_json with a mock object
+        """
+        patcher = patch("utils.requests.get")
+        mock_get = patcher.start()
+        mock_get.return_value.ok = input[1].get("payload")
+        mock_get.return_value.json.return_value = input[1]
+        res = get_json(input[0])
+        self.assertEqual(res, input[1])
+        mock_get.stop()
