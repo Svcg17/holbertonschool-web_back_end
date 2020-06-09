@@ -11,19 +11,19 @@ class TestGithubOrgClient(unittest.TestCase):
     """Testing GithubOrgClient class
     """
     @parameterized.expand([
-        ("valid_org", ("facebook", {"payload": True})),
-        ("valid_org_1", ("twitter", {"payload": True})),
-        ("invalid_org", ("invalid", {"payload": False}))
+        ("facebook", {"payload": True}),
+        ("twitter", {"payload": True}),
+        ("invalid", {"payload": False})
     ])
     @mock.patch("utils.requests.get")
-    def test_org(self, name, input, mock_get_json):
+    def test_org(self, url, payload, mock_get_json):
         """Testing GithubOrgClient class
         """
-        mock_get_json.return_value.ok = input[1].get("payload")
-        mock_get_json.return_value.json.return_value = input[1]
-        g_client = GithubOrgClient(input[0])
+        mock_get_json.return_value.ok = payload.get("payload")
+        mock_get_json.return_value.json.return_value = payload
+        g_client = GithubOrgClient(url)
         res = g_client.org
-        self.assertEqual(res, input[1])
+        self.assertEqual(res, payload)
         mock_get_json.assert_called_once()
 
 

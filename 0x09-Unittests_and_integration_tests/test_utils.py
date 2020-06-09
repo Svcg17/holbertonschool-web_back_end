@@ -11,25 +11,25 @@ class TestAccessNestedMap(unittest.TestCase):
     """ A class for testing utils.access_nested_map method
     """
     @parameterized.expand([
-        ("len_1", ({"a": 1}, ("a",)), 1),
-        ("len_2", (({"a": {"b": 2}}, ("a",))), {'b': 2}),
-        ("access_nested", (({"a": {"b": 2}}, ("a", "b"))), 2)
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {'b': 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
-    def test_access_nested_map(self, name, input, expected):
+    def test_access_nested_map(self, mapp, path, expected):
         """Sucess testing for access_nested_map method
         """
-        self.assertEqual(access_nested_map(*input), expected)
+        self.assertEqual(access_nested_map(mapp, path), expected)
 
     @parameterized.expand([
-        ("empty_map", ({}, ("a",)), "a"),
-        ("non_existent_path", ({"a": 1}, ("a", "b")), "b")
+        ({}, ("a",), "a"),
+        ({"a": 1}, ("a", "b"), "b")
     ])
-    def test_access_nested_map_exception(self, name, input, error):
+    def test_access_nested_map_exception(self, mapp, path, error):
         """Testing failure of utils.access_nested_map method
         """
         with self.assertRaises(KeyError):
             try:
-                access_nested_map(*input)
+                access_nested_map(mapp, path)
             except KeyError as e:
                 self.assertEqual(e.args[0], error)
                 raise
@@ -39,18 +39,18 @@ class TestGetJson(unittest.TestCase):
     """Testing for utils.get_json method
     """
     @parameterized.expand([
-        ("true_payload", ("http://example.com", {"payload": True})),
-        ("false_payload", ("http://holberton.io", {"payload": False}))
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
     ])
-    def test_get_json(self, name, input):
+    def test_get_json(self, url, payload):
         """Tests utils.get_json with a mock object
         """
         patcher = patch("utils.requests.get")
         mock_get = patcher.start()
-        mock_get.return_value.ok = input[1].get("payload")
-        mock_get.return_value.json.return_value = input[1]
-        res = get_json(input[0])
-        self.assertEqual(res, input[1])
+        mock_get.return_value.ok = payload.get("payload")
+        mock_get.return_value.json.return_value = payload
+        res = get_json(url)
+        self.assertEqual(res, payload)
         mock_get.stop()
 
 
@@ -61,11 +61,15 @@ class TestMemoize(unittest.TestCase):
         """Testing for utils.memoize decorator by mocking a_method
         """
         class TestClass:
+            """A class for testing
+            """
             def a_method(self):
+                """a_method"""
                 return 42
 
             @memoize
             def a_property(self):
+                """a_property"""
                 return self.a_method()
         with patch.object(TestClass, "a_method") as mock_a:
             mock_a.return_value = True
