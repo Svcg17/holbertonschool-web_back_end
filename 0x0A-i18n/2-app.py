@@ -4,6 +4,7 @@ Basic Flask App
 """
 from flask import Flask, jsonify, render_template, request
 from flask_babel import Babel
+from typing import List
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -17,11 +18,11 @@ class Config:
 
 app.config.from_object(Config)
 Babel.default_locale = "en"
-Babel.default_timezone = 'UTC'
+Babel.default_timezone = "UTC"
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> List[str]:
     """Select a language translation to use in every request
     """
     return request.accept_languages.best_match(Config.LANGUAGES)
