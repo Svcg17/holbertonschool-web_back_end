@@ -3,7 +3,7 @@
 """
 import redis
 import uuid
-from typing import Union, Callable, Any
+from typing import Union, Callable, Any, Optional
 from functools import wraps
 
 
@@ -72,7 +72,8 @@ class Cache:
         self._redis.mset({key: data})
         return key
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str,
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
         """Gets the value of a string and returns it converted to
         the right type
         """
