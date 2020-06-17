@@ -15,9 +15,9 @@ def call_history(method: Callable) -> Callable:
     out_key = method.__qualname__ + ":outputs"
 
     @wraps(method)
-    def wrapper(self, args):
+    def wrapper(self, *args):
         self._redis.rpush(in_key, str(args))
-        res = method(self, args)
+        res = method(self, *args)
         self._redis.rpush(out_key, str(res))
         return res
     return wrapper
@@ -72,7 +72,7 @@ class Cache:
         self._redis.mset({key: data})
         return key
 
-    def get(self, key: str, fn: Callable = None) -> Any:
+    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         """Gets the value of a string and returns it converted to
         the right type
         """
