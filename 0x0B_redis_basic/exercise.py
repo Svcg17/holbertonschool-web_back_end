@@ -14,8 +14,8 @@ def count_calls(method: Callable) -> Callable:
     key = method.__qualname__
 
     @wraps(method)
-    def wrapper(self, *args):
-        k = method(self, args[0])
+    def wrapper(self, args):
+        k = method(self, args)
         self._redis.incr(key)
         return k
 
@@ -39,7 +39,8 @@ class Cache:
         self._redis.mset({key: data})
         return key
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Callable = None) -> Union[str,
+                                                          bytes, int, float]:
         """Gets the value of a string and returns it converted to
         the right type
         """
@@ -47,14 +48,3 @@ class Cache:
             return fn(self._redis.get(key))
         else:
             return self._redis.get(key)
-
-
-
-cache = Cache()
-
-cache.store(b"first")
-print(cache.get(cache.store.__qualname__))
-
-cache.store(b"second")
-cache.store(b"third")
-print(cache.get(cache.store.__qualname__))
