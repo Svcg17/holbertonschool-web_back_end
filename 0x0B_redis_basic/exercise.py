@@ -3,11 +3,11 @@
 """
 import redis
 import uuid
-from typing import Union, Callable
+from typing import Union, Callable, Any
 from functools import wraps
 
 
-def call_history(method: Callable):
+def call_history(method: Callable) -> Callable:
     """Stores the history of inputs and outputs for a particular
     function
     """
@@ -72,7 +72,7 @@ class Cache:
         self._redis.mset({key: data})
         return key
 
-    def get(self, key: str, fn: Callable = None):
+    def get(self, key: str, fn: Callable = None) -> Any:
         """Gets the value of a string and returns it converted to
         the right type
         """
