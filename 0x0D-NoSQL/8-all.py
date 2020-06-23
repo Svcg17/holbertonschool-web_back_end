@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Task 8"""
-from pymongo import MongoClient
 
 
 def list_all(mongo_collection):
@@ -8,5 +7,5 @@ def list_all(mongo_collection):
     Args:
         mongo_collection: the pymongo collection object
     """
-    return (mongo_collection.find() if mongo_collection.find().count() > 0
+    return ([*mongo_collection.find()] if mongo_collection.find().count() > 0
             else [])
