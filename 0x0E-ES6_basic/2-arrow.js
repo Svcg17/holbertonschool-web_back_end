@@ -7,6 +7,3 @@ export default function getNeighborhoodsList() {
     return self.sanFranciscoNeighborhoods;
   };
 }
-/* let a = new getNeighborhoodsList
-console.log(a.addNeighborhood("mayami"))
- */
