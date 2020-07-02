@@ -139,3 +139,104 @@ Promise {
 }
 >
 ```
+
+### [7. Load balancer](./7-load_balancer.js)
+Write and export a function named loadBalancer. It should accept two arguments chinaDownload (Promise) and USDownload (Promise).
+
+The function should return the value returned by the promise that resolved the first.
+```
+export default function loadBalancer(chinaDownload, USDownload) {
+
+}
+```
+
+Example:
+```
+> const promiseChina = new Promise(function(resolve, reject) {
+        setTimeout(resolve, 100, 'Downloading from China is faster');
+    });
+> 
+> const promiseUSA = new Promise(function(resolve, reject) {
+        setTimeout(resolve, 300, 'Downloading from USA is faster');
+    });
+>
+> const value = loadBalancer(promiseChina, promiseUSA);
+>
+> value
+Promise { 'Downloading from China is faster' }
+>
+```
+
+### [8. Throw error / try catch](./8-try.js)
+
+
+Write a function named divideFunction that will accept two arguments: numerator (Number) and denominator (Number).
+
+When the denominator argument is equal to 0, the function should throw a new error with the message cannot divide by 0. Otherwise it should return the numerator divided by the denominator.
+```
+export function divideFunction(numerator, denominator) {
+
+}
+```
+
+Example:
+```
+> divideFunction(10, 2)
+5
+> divideFunction(10, 0)
+Uncaught Error: cannot divide by 0
+    at divideFunction (repl:3:11)
+>
+```
+
+### [9. Throw an error ](./9-try.js)
+Write a function named guardrail that will accept one argument mathFunction (Function).
+
+The function should an array named queue. When the function is executed, the value returned by the function should be appended to the queue. If the function throws an error, the error message should be appended to the queue. In every case, the message Guardrail was processed should be added to the queue. Example:
+```
+[
+  1000,
+  'Guardrail was processed',
+]
+```
+Example:
+```
+> const res = guardrail(() => { return divideFunction(10, 5)})
+> res
+[ 2, 'Guardrail was processed' ]
+>
+> const res0 = guardrail(() => { return divideFunction(10, 0)})
+> res0
+[ 'Error: cannot divide by 0', 'Guardrail was processed' ]
+> 
+```
+
+### [10. Await / Async](./100-await.js)
+Import uploadPhoto and createUser from utils.js
+
+Write an async function named asyncUploadUser that will call these two functions and return an object with the following format:
+```
+{
+  photo: response_from_uploadPhoto_function,
+  user: response_from_createUser_function,
+}
+```
+If one of the async function fails, return an empty object. Example:
+```
+{
+  photo: null,
+  user: null,
+}
+```
+Example:
+```
+> const value = await asyncUploadUser();
+> value
+Promise {
+  {
+    photo: { status: 200, body: 'photo-profile-1' },
+    user: { firstName: 'Guillaume', lastName: 'Salva' }
+  }
+}
+>
+```
