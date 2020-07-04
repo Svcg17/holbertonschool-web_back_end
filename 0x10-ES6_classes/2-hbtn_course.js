@@ -38,12 +38,3 @@ export default class HolbertonCourse {
     return this._students;
   }
 }
-
-const c1 = new HolbertonCourse("ES6", 1, ["Bob", "Jane"]);
-console.log(c1.name);
-c1.name = "Python 101"
-console.log(c1.name);
-console.log(c1);
-const c2 = new HolbertonCourse("ES8", 1, ["Bobb", "Janee"]);
-console.log(c2)
-
