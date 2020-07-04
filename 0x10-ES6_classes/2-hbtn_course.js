@@ -1,8 +1,14 @@
 export default class HolbertonCourse {
   constructor(name, length, students) {
-    this._name = name;
-    this._length = length;
-    this._students = students;
+    // name
+    if (typeof (name) === 'string') this._name = name;
+    else throw new Error(TypeError('name must be a String'));
+    // length
+    if (typeof (length) === 'number') this._length = length;
+    else throw new Error(TypeError('length must be a Number'));
+    // students
+    if (Array.isArray(students) && students.every((val) => typeof (val) === 'string')) this._students = students;
+    else throw new Error(TypeError('students must be an Array of Strings'));
   }
 
   set name(value) {
@@ -24,11 +30,20 @@ export default class HolbertonCourse {
   }
 
   set students(value) {
-    if (Array.isArray(value)) this._students = value;
-    else throw new Error(TypeError('students must be an Array'));
+    if (Array.isArray(value) && value.every((v) => typeof (v) === 'string')) this._students= value;
+    else throw new Error(TypeError('students must be an Array of Strings'));
   }
 
   get students() {
     return this._students;
   }
 }
+
+const c1 = new HolbertonCourse("ES6", 1, ["Bob", "Jane"]);
+console.log(c1.name);
+c1.name = "Python 101"
+console.log(c1.name);
+console.log(c1);
+const c2 = new HolbertonCourse("ES8", 1, ["Bobb", "Janee"]);
+console.log(c2)
+
