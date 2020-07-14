@@ -7,7 +7,7 @@ function countStudents(path) {
       if (dataDb) {
         const inFields = {}; // {field: {counter: # of students, students: [list of students]}}
         const data = dataDb.split('\n');
-        resolve(console.log(`Number of students: ${data.length - 1}`));
+        console.log(`Number of students: ${data.length - 1}`);
 
         for (let i = 1; i < data.length; i += 1) {
           const line = data[i].split(','); // get each word
@@ -20,9 +20,11 @@ function countStudents(path) {
         }
         for (const key in inFields) {
           if (Object.prototype.hasOwnProperty.call(inFields, key)) {
-            resolve(console.log(`Number of students in ${key}: ${inFields[key].counter}. List: ${inFields[key].students}`));
+            console.log(`Number of students in ${key}: ${inFields[key].counter}. List: ${inFields[key].students}`);
           }
         }
+        // ret obj of students in fields and number of students
+        resolve({ inFields, counter: data.length - 1 });
       }
     });
   };
