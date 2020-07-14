@@ -8,6 +8,7 @@ app.get('/', (req, res) => res.send('Hello Holberton School!'));
 app.get('/students', ((req, res) => {
   countStudents(process.argv[2])
     .then((v) => {
+      res.writeHead(200);
       res.write('This is the list of our students\n');
       res.write(`Number of students: ${v.counter}\n`);
       let len = 0;
