@@ -10,7 +10,7 @@ const app = http.createServer((req, res) => {
       break;
     case '/students':
       res.writeHead(200);
-      res.write('This is the list of our students');
+      res.write('This is the list of our students\n');
       countStudents(process.argv[2])
         .then((v) => {
           res.write(`Number of students: ${v.counter}\n`);
@@ -24,11 +24,16 @@ const app = http.createServer((req, res) => {
           }
           res.end();
         })
-        .catch((e) => res.end(e));
+        .catch(() => {
+          res.writeHead(404);
+          res.write('This is the list of our students\n');
+          res.end('Cannot load the database');
+        });
       break;
     default:
       res.writeHead(404);
-      res.end(Error('something wrong happened'));
+      res.write('This is the list of our students\n');
+      res.end(('Cannot load the database'));
   }
 });
 app.listen(1245);
