@@ -8,6 +8,7 @@ app.get('/', (req, res) => res.send('Hello Holberton School!'));
 app.get('/students', ((req, res) => {
   countStudents(process.argv[2])
     .then((v) => {
+      res.write('This is the list of our students\n');
       res.write(`Number of students: ${v.counter}\n`);
       let len = 0;
       for (const key in v.inFields) {
@@ -19,7 +20,10 @@ app.get('/students', ((req, res) => {
       }
       res.end();
     })
-    .catch((e) => res.status(404).end(e));
+    .catch(() => {
+      res.write('This is the list of our students\n');
+      res.status(404).end('Cannot load the database');
+    });
 }));
 
 app.listen(port);
