@@ -53,7 +53,7 @@ Expected result:
 "[HOLBERTON] my_logger INFO 2019-11-19 18:24:25,105: name=Balou; email=***; ssn=***; password=abcdef;"
 ```
 
-DO NOT extrapolate FORMAT manually. The format method should be less than 5 lines long.
+*DO NOT* extrapolate FORMAT manually. The format method should be less than 5 lines long.
 
 ### [2. Create logger ](./filtered.logger.py)
 Use `user_data.csv` for this task
